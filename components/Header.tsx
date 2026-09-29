@@ -3,45 +3,41 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/about", label: "About" },
+  { href: "/gallery", label: "Gallery" },
+];
+
 const Header = () => {
   const pathname = usePathname();
 
   return (
     <header className="header">
       <div className="nav-container">
-        <Link href="/" className="logo">
-          <span>RC</span>
-          Portfolio
+        <Link href="/" className="logo" aria-label="RC portfolio home">
+          <span className="logo-mark" aria-hidden="true">
+            RC
+          </span>
+          <span className="logo-text">RC Studio</span>
         </Link>
 
-        <nav className="navigation">
-          <Link
-            href="/"
-            className={`nav-link ${pathname === "/" ? "active" : ""}`}
-          >
-            Home
-          </Link>
+        <nav className="navigation" aria-label="Main navigation">
+          {navItems.map(({ href, label }) => {
+            const isActive = pathname === href;
 
-          <Link
-            href="/portfolio"
-            className={`nav-link ${pathname === "/portfolio" ? "active" : ""}`}
-          >
-            Portfolio
-          </Link>
-
-          <Link
-            href="/about"
-            className={`nav-link ${pathname === "/about" ? "active" : ""}`}
-          >
-            About
-          </Link>
-
-          <Link
-            href="/gallery"
-            className={`nav-link ${pathname === "/gallery" ? "active" : ""}`}
-          >
-            Gallery
-          </Link>
+            return (
+              <Link
+                key={href}
+                href={href}
+                aria-current={isActive ? "page" : undefined}
+                className={`nav-link ${isActive ? "active" : ""}`}
+              >
+                {label}
+              </Link>
+            );
+          })}
         </nav>
       </div>
     </header>
